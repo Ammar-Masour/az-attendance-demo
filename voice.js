@@ -23,7 +23,7 @@ document.addEventListener('play',event=>{
   active.closest('details').open=true;
   document.getElementById('voice-status').textContent='جاري تشغيل: '+active.closest('details').querySelector('summary').textContent;
   if(document.getElementById('follow-voice').checked){
-    document.dispatchEvent(new CustomEvent('az:narration',{detail:{part:partOf(active)}}));
+    document.dispatchEvent(new CustomEvent('az:narration',{detail:{part:partOf(active),title:active.closest('details').querySelector('summary').textContent}}));
     document.getElementById('app').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
   }
 },true);

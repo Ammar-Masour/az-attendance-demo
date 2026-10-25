@@ -9,6 +9,7 @@ document.addEventListener('az:narration',event=>{
   const target=screens[event.detail.part];if(!target)return;
   if($('#modal').open)$('#modal').close();
   [state.role,state.tab]=target;save();
+  $('#guideText').textContent='الشرح الحالي: '+event.detail.title;
 });
 function save(action){if(action)state.audit.unshift({action,time:new Date().toLocaleString('ar-EG')});localStorage.setItem('az_public_presentation_v1',JSON.stringify(state));render();}
 function btn(label,a,id=''){return `<button class="ghost" data-a="${a}" data-id="${esc(id)}">${esc(label)}</button>`;}
