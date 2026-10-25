@@ -4,6 +4,12 @@ let state;try{state=JSON.parse(localStorage.getItem('az_public_presentation_v1')
 if(state.students[0]?.name==='أحمد — طالب وهمي')state.students[0].name='عمار — حساب عرض';
 const steps=[['student','lectures','١. الطالب: اطلب اعتماد جهازه من زر «إضافة جهازي».'],['admin','devices','٢. الإدارة: اعتمد جهاز الطالب، ثم اشرح أن هذه موافقة مسؤول.'],['student','lectures','٣. الطالب: افتح المحاضرة وسجّل حضورًا بمحاكاة QR والموقع.'],['student','attendance','٤. الطالب: راجع النتيجة وقدّم تظلمًا لشرح مسار الشكاوى.'],['admin','objections','٥. الإدارة: راجع التظلم واتخذ قرارًا.'],['admin','lectures','٦. السوبر أدمن: أضف محاضرة وعدّل عنوانها ومجموعتها.'],['admin','students','٧. السوبر أدمن: عدّل اسم طالب أو اعتماده، وصدّر تقرير الحضور.'],['admin','sheets','٨. الطوارئ: أنشئ كشفًا تجريبيًا ثم اعتمده.'],['admin','audit','٩. اشرح سجل القرارات؛ البيانات هنا محاكاة محلية فقط.']];
 const names={lectures:'المحاضرات',attendance:'سجل الحضور',devices:'الأجهزة',students:'الطلاب والتعديل',objections:'التظلمات',sheets:'كشوف الطوارئ',database:'قاعدة البيانات',audit:'سجل القرارات'};
+document.addEventListener('az:narration',event=>{
+  const screens={1:['student','lectures'],2:['student','devices'],3:['student','lectures'],4:['student','attendance'],5:['admin','lectures'],6:['admin','sheets'],7:['admin','database'],8:['admin','audit']};
+  const target=screens[event.detail.part];if(!target)return;
+  if($('#modal').open)$('#modal').close();
+  [state.role,state.tab]=target;save();
+});
 function save(action){if(action)state.audit.unshift({action,time:new Date().toLocaleString('ar-EG')});localStorage.setItem('az_public_presentation_v1',JSON.stringify(state));render();}
 function btn(label,a,id=''){return `<button class="ghost" data-a="${a}" data-id="${esc(id)}">${esc(label)}</button>`;}
 function notify(msg){$('#notice').textContent=msg;$('#notice').hidden=false;setTimeout(()=>$('#notice').hidden=true,4500);}
